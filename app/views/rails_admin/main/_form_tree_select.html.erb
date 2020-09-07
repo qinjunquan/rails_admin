@@ -1,0 +1,15 @@
+<div class="ra-tree-select-wrap well" data-type="<%= "#{form.object_name}_#{field.name}" %>">
+  <div class="tree ra-tree-select">
+    <%= field.formatted_render_tree %>
+  </div>
+  <div class="ra-items-wrap">
+    <div>选择项:</div>
+    <div class="ra-select-items">
+      <%= field.get_select_items%>
+    </div>
+    <div style="margin-top:10px;">已选择:</div>
+    <div class="ra-selected-items"></div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+

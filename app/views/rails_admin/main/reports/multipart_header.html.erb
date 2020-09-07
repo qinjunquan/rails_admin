@@ -1,0 +1,44 @@
+<div class="list">
+  <%= render :partial => "rails_admin/main/reports/filters" %>
+
+  <table id="ra-report-table" class="table table-condensed table-striped table-bordered table-hover">
+    <thead>
+      <tr>
+        <% @report_config.get_fields_groups.each do |fields_group| %>
+          <% if fields_group[:fields].count == 1 %>
+            <th rowspan=2><%= t("admin.reports.#{params[:kind]}.header.#{fields_group[:fields][0]}")%></th>
+          <% else %>
+            <th colspan="<%= fields_group[:fields].count %>"><%= fields_group[:label] %></th>
+          <% end %>
+        <% end %>
+      </tr>
+      <tr>
+        <% cols_count = 0 %>
+        <% @report_config.get_fields_groups.each do |fields_group| %>
+          <% cols_count += 1 %>
+          <% if fields_group[:fields].count > 1 %>
+            <% cols_count += (fields_group[:fields].count - 1) %>
+            <% fields_group[:fields].each do |field| %>
+              <th><%= t("admin.reports.#{params[:kind]}.header.#{field}") %></th>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @results.present? %>
+        <% @results.each do |result| %>
+          <tr>
+            <% @report_config.get_fields_groups.each do |fields_group| %>
+              <% fields_group[:fields].each do |field| %>
+                <td><%= result[field] %></td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      <% else %>
+        <tr><td colspan=<%= cols_count%>>没有记录</td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

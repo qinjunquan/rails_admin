@@ -1,0 +1,64 @@
+<div class="ra-table-edit-wrap" data-type="<%= "#{form.object_name}_#{field.name}" %>">
+  <table class="table table-bordered ra-normalt-table ra-table">
+    <thead>
+      <tr>
+        <% field.fields.map do |field_config| %>
+          <th class="<%= field_config[:type].to_s == "hidden" ? "ra-hidden" : "" %>">
+            <%= t("activerecord.attributes.#{field.abstract_model.to_s.underscore}_#{field.name}.#{field_config[:field_name]}") %>
+          </th>
+        <% end %>
+        <th><%= t("admin.form.operate") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% form.object.send(field.name).each_with_index do |item, index| %>
+        <tr class="ra-row">
+          <td class="ra-hidden">
+            <input type="hidden" name="<%="#{form.object_name}[#{field.name}_attributes][#{index}][id]" %>" value="<%= item.id %>" />
+            <input type="hidden" class="ra-input-destroy" name="<%="#{form.object_name}[#{field.name}_attributes][#{index}][_destroy]" %>" value="0" />
+          </td>
+          <% field.fields.map do |field_config| %>
+            <%
+              # place_category[places_attributes][0][name]
+              input_name = "#{form.object_name}[#{field.name}_attributes][#{index}][#{field_config[:field_name]}]"
+            %>
+            <td class="<%= field_config[:type].to_s == "hidden" ? "ra-hidden" : "" %>">
+              <%= form.field_for_table_edit(field.parent, field_config, item, input_name) %>
+            </td>
+          <% end %>
+          <td>
+            <% if authorized?(:delete) || @object.new_record? || table_edit_deletable_models.include?(@object.class.to_s) %>
+              <a class="ra-delete-link" href="#"><%= t("admin.form.delete") %></a>
+            <% end %>
+            <% if authorized?(:sort) && form.object.respond_to?(:position) %>
+              <img class="ra-sort" src="/assets/rails_admin/drag.png" />
+              <input type="hidden" class="ra-input-sort" name="<%="#{form.object_name}[#{field.name}_attributes][#{index}][position]" %>" value="<%= index %>" />
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% content_for :outside_of_form do %>
+    <table class="ra-hidden ra-table-edit-template" data-type="<%= "#{form.object_name}_#{field.name}" %>">
+      <tbody>
+        <tr class="ra-row">
+          <% new_object = form.object.send(field.name).new %>
+          <% field.fields.map do |field_config| %>
+            <% input_name = "#{form.object_name}[#{field.name}_attributes][{index}][#{field_config[:field_name]}]" %>
+            <td class="<%= field_config[:type].to_s == "hidden" ? "ra-hidden" : "" %>">
+              <%= form.field_for_table_edit(field.parent, field_config, new_object, input_name) %>
+            </td>
+          <% end %>
+          <td>
+            <a class="ra-delete-link" href="#"><%= t("admin.form.delete") %></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  <% end %>
+
+  <button class="ra-new-btn btn btn-info" type="submit" data-type="<%= "#{form.object_name}_#{field.name}" %>"><%= t("admin.form.add_new") %></button>
+</div>
+<div class="ra-table-edit-wrap"></div>

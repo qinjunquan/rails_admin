@@ -1,0 +1,6 @@
+<div class="cms-readonly-wrap">
+  <%
+    custome_name = field.html_attributes[:name] || form.dom_name(field)
+  %>
+  <span name="<%= custome_name %>"><%= field.formatted_value %></span>
+</div>

@@ -1,0 +1,6 @@
+<div class="cms-hidden-wrap">
+  <%
+    custome_name = field.html_attributes[:name] || form.dom_name(field)
+  %>
+  <input type="hidden" name="<%= custome_name %>" value="<%= field.value || field.formatted_default_value %>"></input>
+</div>

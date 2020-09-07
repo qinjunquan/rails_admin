@@ -1,0 +1,26 @@
+<div class="ra-new-job list">
+  <%= form_tag request.path, :method => :post, :class => "pjax-form form-inline", :multipart => true do |form| %>
+    <div class="well">
+      <div class="ra-fields-wrap">
+        <% @job_config.get_fields.in_groups_of(3, false).each do |field_config_groups| %>
+          <div class="ra-field-items">
+            <% field_config_groups.each do |field_config| %>
+              <div class="controls ra-field-item">
+                <label><%= t("admin.reports.#{params[:kind]}.field.#{field_config[:field_name]}") %></label>
+                <%
+                  base = RailsAdmin::Config::Model.new(User)
+                  field = RailsAdmin::Config::Fields::Types.load(field_config[:type]).new(base, field_config[:field_name], nil)
+                  field.instance_eval(&field_config[:block]) if field_config[:block].present?
+                %>
+                <%= raw(field.search_input_html(self)) %>
+              </div>
+            <% end %>
+            <div class="clearfix"></div>
+          </div>
+        <% end %>
+      </div>
+      <button class="btn btn-primary"><%= t("admin.search.submit") %></button>
+    </div>
+  <% end %>
+</div>
+

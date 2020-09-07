@@ -1,0 +1,63 @@
+:ruby
+  all_properties = @model_config.list.with(controller: self.controller, view: self, object: @abstract_model.model.new).visible_fields
+  all_properties = all_properties.reject { |p| [:table_edit, :serialized, :has_many_association].include?(p.type) }
+  properties = all_properties
+
+  selected_columns = selected_index_columns(@abstract_model.to_s)
+  if selected_columns.present?
+    #sort properties
+    selected_properties = selected_columns.map do |c|
+      all_properties.select { |p| p.name.to_s == c }[0]
+    end
+    #made selected properties in front of other properties
+    all_properties = selected_properties + (properties - selected_properties)
+    properties = selected_properties
+  end
+  # columns paginate
+  #sets = get_column_sets(properties)
+  #properties = sets[params[:set].to_i] || []
+  other_left = false #((params[:set].to_i - 1) >= 0) && sets[params[:set].to_i - 1].present?
+  other_right = false #sets[params[:set].to_i + 1].present?
+
+#list
+  %script
+    jQuery(function($) {
+    $("a").click(function(){
+    window.open($(this).attr("href"), "_blank");
+    return false;
+    });
+
+    });
+
+
+  %style
+    - properties.select{ |p| p.column_width.present? }.each do |property|
+      = "#list th.#{property.css_class} { width: #{property.column_width}px; min-width: #{property.column_width}px; }"
+      = "#list td.#{property.css_class} { max-width: #{property.column_width}px; }"
+
+  %h4 #{@abstract_model.pretty_name.downcase}
+  %table.table.table-condensed.table-striped.table-bordered
+    %thead
+      %tr
+        - if other_left
+          %th.other.left.shrink= "..."
+        - properties.each do |property|
+          %th{class: "ra-min-th"}= property.label
+        - if other_right
+          %th.other.right.shrink= "..."
+    %tbody
+      - @objects.each do |object|
+        %tr{class: "#{@abstract_model.param_key}_row"}
+          - if @other_left_link ||= other_left && index_path(params.except('set').merge(params[:set].to_i != 1 ? {set: (params[:set].to_i - 1)} : {}))
+            %td.other.left= link_to "...", @other_left_link, class: 'pjax'
+          - properties.map{ |property| property.bind(:object, object) }.each_with_index do |property, index|
+            - value = property.formatted_list_value
+            - if index == 0
+              %td{class: "#{property.css_class} #{property.type_css_class}", title: strip_tags(value.to_s)}
+                %a{href: "/admin/#{params[:model_name]}/#{object.id}" }=value
+            - else
+              %td{class: "#{property.css_class} #{property.type_css_class}", title: strip_tags(value.to_s)}= value
+          - if @other_right_link ||= other_right && index_path(params.merge(set: (params[:set].to_i + 1)))
+            %td.other.right= link_to "...", @other_right_link, class: 'pjax'
+
+

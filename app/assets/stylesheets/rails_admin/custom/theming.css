@@ -1,0 +1,685 @@
+/* ------------------------------------ Override ----------------------------------------*/
+.modal.fade{
+  -webkit-transition:opacity .3s linear;
+  -moz-transition:opacity .3s linear;
+  -ms-transition:opacity .3s linear;
+  -o-transition:opacity .3s linear;
+  transition:opacity .3s linear;
+  top:-25%;
+}
+
+.row-fluid .span3 {
+  width: 13.40426%;
+}
+.row-fluid .span9 {
+  width: 84.40426%;
+}
+form .well {
+  margin-bottom: 0px;
+  padding: 5px 5px 1px 5px;
+}
+.ra-index-nav {
+  margin-bottom: 10px;
+}
+#bulk_form {
+  overflow: scroll;
+}
+body.rails_admin .table td.links .inline li.print_member_link {
+  display: none;
+}
+
+/* ------------------------------------ Common -----------------------------------------*/
+.ra-min-th {
+  min-width: 50px;
+}
+.ra-hidden {
+  display: none;
+}
+
+.ra-normalt-table th, .ra-normalt-table td, .ra-normalt-table .table-bordered {
+  border-radius: 0 !important;
+}
+.ra-normalt-table .table-bordered {
+  border: 1px solid #ddd;
+}
+.ra-normalt-table {
+  width: 100%;
+  margin-bottom: 20px;
+  max-width: 100%;
+  background-color: transparent;
+}
+
+.ra-normalt-table > thead > tr {
+  color: #707070;
+  font-weight: normal;
+  background: #F2F2F2;
+  background-image: -webkit-linear-gradient(top, #f8f8f8 0, #ececec 100%);
+  background-image: linear-gradient(to bottom, #f8f8f8 0, #ececec 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff8f8f8', endColorstr='#ffececec', GradientType=0);
+}
+
+.ra-normalt-table > thead > tr >th {
+  border-color: #ddd;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.ra-normalt-table > thead > tr > th:first-child {
+  border-left-color: #ddd;
+}
+
+/* -------------------------- Form ----------------------------*/
+.readonly_type .help-block {
+  display: none;
+}
+
+.ra-form .ra-group-wrap {
+  margin-left: 0px;
+}
+
+.ra-form .ra-group-wrap:before, .ra-form .ra-group-wrap:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+
+.ra-form .ra-group-wrap:after {
+  clear: both;
+}
+
+.ra-form .ra-group-wrap:before, .ra-form .ra-group-wrap:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+
+.ra-form .ra-group-title {
+  font-size: 15px;
+  border-bottom: 1px solid #ccc;
+  line-height: 30px;
+}
+
+.ra-form .ra-col-2 {
+  float: left;
+  width: 50%;
+}
+
+.ra-form .ra-col-3 {
+  float: left;
+  width: 33.33333333333333%;
+}
+
+.ra-form .control-label {
+  width: 92px !important;
+  padding-right: 15px;
+  margin-bottom: 0;
+}
+
+.ra-form .controls {
+  margin-left: 100px;
+  line-height: 23px;
+}
+
+body.rails_admin .form-horizontal input, body.rails_admin .form-horizontal textarea {
+  width: 80%;
+}
+
+.ra-form .tab-content {
+  border: 1px solid #ccc;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.ra-form .nav-tabs {
+  margin-bottom: 0px;
+  margin-top: 15px;
+  border-bottom: none;
+}
+
+.ra-form .nav-tabs a{
+  background-color: #999;
+  color: white;
+  padding: 2px 5px;
+}
+
+.ra-form .nav-tabs li.active a, .ra-form .nav-tabs li a:hover{
+  background-color: #3892E3;
+  color: white;
+  padding: 2px 5px;
+}
+
+.ra-form .tab-content .tab-pane {
+  border-left: none !important;
+}
+
+body.rails_admin .form-horizontal.denser .control-group {
+  padding-top: 4px;
+}
+
+.ra-form .table_edit_type label.control-label {
+  display: none;
+}
+
+.ra-form .table_edit_type .controls {
+  margin-left: 0px;
+}
+
+.ra-form, .form-horizontal fieldset {
+  padding-bottom: 100px;
+}
+
+.form-actions {
+  padding-left: 0px !important;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.ra-table-edit-wrap input[type=file]{
+  height: 17px;
+  line-height: 17px;
+  padding-top: 5px;
+}
+
+body.s-month-picker .ui-datepicker-calendar {
+  display: none;
+}
+body.s-month-picker .ui-datepicker-year{
+  width: 40%;
+  margin: 0px 5px 0px 5px;
+}
+body.s-month-picker .ui-datepicker-month{
+  width: 40%;
+  margin: 0px 5px 0px 5px;
+}
+
+.ra-table-edit-wrap div.field_with_errors input {
+  border-color: #b94a48;
+}
+
+.ra-table-edit-wrap span.s-help-inline {
+  color: #b94a48;
+}
+
+.ra-required-tag {
+  color: #D14;
+}
+
+/* --------------------------- IndexPage -------------------------------- */
+.ra-bulk-edit .ra-submit {
+  margin-bottom: 10px;
+}
+.ra-filters {
+  margin-right: 10px;
+  display: inline-block;
+}
+.ra-filters .ra-label {
+  font-weight: bold;
+  font-size: 15px;
+}
+.ra-filters .ra-filter {
+  margin-left: 5px;
+}
+.ra-filters .ra-filter.ra-selected {
+  text-decoration: underline;
+}
+
+.ra-filters .ra-search-wrap {
+  width: 100%;
+  margin-top: 6px;
+}
+.ra-filters .ra-search-items {
+  width: 100%;
+  margin-top: 5px;
+}
+.ra-filters .ra-search-item {
+  width: 33%;
+  display: inline-block;
+  float: left;
+}
+.ra-search-items .ra-search-item {
+  display: inline-block;
+}
+.ra-search-items .ra-search-item label {
+  width: 80px;
+}
+.ra-search-items .ra-search-item .hasDatepicker {
+  width: 120px;
+}
+.ra-filters .ra-search-item .ra-date {
+  display: inline-block;
+}
+.ra-filters .ra-search-item .ra-date input{
+  width: 75px;
+  margin-right: 0px !important;
+}
+.ra-filters button {
+  margin-top: 8px;
+}
+.ra-index-setting {
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #fff;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+  -moz-box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.065);
+  border: 1px solid #e5e5e5;
+  position: inherit !important;
+  width: 100% !important;
+  margin-left: 0px !important;
+}
+.ra-search-wrap {
+  padding-left: 5px;
+}
+.ra-index-setting .total-count {
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+
+.pagination ul>span {
+  background-color: whitesmoke;
+  float: left;
+  padding: 4px 12px;
+  line-height: 13px;
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid #dddddd;
+  border-left-width: 0;
+}
+
+/*---------------------------- Print ---------------------------- */
+#ra-print-page .ra-no-print {
+  display: none;
+}
+
+#ra-print-page .ra-title {
+  text-align: center;
+}
+#ra-print-page .ra-tab-pane {
+  border: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+#ra-print-page .tab-pane {
+  border: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+/* tree-select */
+.ra-tree-select-wrap .ra-tree-select {
+  width: 30%;
+  overflow: scroll;
+  float: left;
+  height:420px;
+  border:1px solid #999;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  background-color: #fff;
+  -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+.ra-tree-select li {
+  list-style-type:none;
+  margin-left:-5px;
+  padding:10px 5px 0 5px;
+  position:relative
+}
+.ra-tree-select li::before, .ra-tree-select li::after {
+  content:'';
+  left:-20px;
+  position:absolute;
+  right:auto;
+}
+.ra-tree-select li::before {
+  border-left:1px solid #999;
+  bottom:50px;
+  height:100%;
+  top:0;
+  width:1px
+}
+.ra-tree-select li::after {
+  border-top:1px solid #999;
+  height:20px;
+  top:25px;
+  width:20px
+}
+.ra-tree-select li span {
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  display:inline-block;
+  padding:3px;
+  text-decoration:none
+}
+.ra-tree-select li.parent_li>span {
+  cursor:pointer
+}
+.ra-tree-select li.parent_li> input {
+  margin-bottom: 2px;
+}
+.ra-tree-select>ul>li::before, .ra-tree-select>ul>li::after {
+  border:0
+}
+.ra-tree-select li:last-child::before {
+  height:30px
+}
+
+.ra-items-wrap {
+  width: 68%;
+  float: left;
+  margin-left: 5px;
+}
+.ra-items-wrap .ra-selected-items {
+  width: 100%;
+  padding: 2px;
+  background-color: #fff;
+  overflow: scroll;
+  min-height:180px;
+  border:1px solid #999;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+.ra-items-wrap .ra-select-items {
+  width: 100%;
+  padding: 2px;
+  background-color: #fff;
+  overflow: scroll;
+  min-height:180px;
+  border:1px solid #999;
+  -webkit-border-radius:4px;
+  -moz-border-radius:4px;
+  border-radius:4px;
+  -webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05)
+}
+.ra-items-wrap .ra-select-items .ra-select-item-wrap {
+  display: none;
+  width: 100px;
+  float: left;
+}
+.ra-items-wrap .ra-select-items .ra-select-item-wrap input{
+  width: 20px;
+  margin-bottom: 5px;
+}
+.ra-select-item-wrap label{
+  display: inline;
+}
+.ra-tree-select li input[type=checkbox]{
+  margin-left: -5px;
+  width: 20px;
+}
+.ra-tree-select .ra-selected-items span{
+  margin: 1px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border:1px solid #999;
+  border-radius:5px;
+  display:inline-block;
+  padding:3px 8px;
+}
+.ra-selected-items span i{
+  margin-left: 5px;
+}
+
+/* ---------------- report -----------------------*/
+.ra-report-filter .ra-filter-items {
+  margin-top: 10px;
+}
+.ra-report-filter .ra-filter-item {
+  float: left;
+  width: 28%;
+  margin-right: 5%;
+}
+.ra-filter-item label {
+  width: 30%;
+  text-align: right;
+}
+.ra-filter-item select {
+  width: 63%;
+}
+.ra-filter-item input {
+  width: 53%;
+}
+.ra-filter-item .hasDatepicker {
+  width: 23%;
+  margin-right: 0 !important;
+}
+.ra-report-filter  button {
+  margin-top: 10px;
+}
+table#ra-report-table {
+  margin-top: 18px;
+}
+.ra-report-data {
+  overflow: scroll;
+}
+.ra-report-data table thead th {
+  background-color: #e6EEEE;
+}
+.ra-report-export {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  height: 12px;
+}
+.ra-report-export a {
+  color: black;
+  float: right;
+}
+/* ---------------- enum category -----------------------*/
+.ui-dialog {
+  overflow: visible;
+}
+.modal-backdrop {
+  z-index: 0;
+}
+.ra-category-modal {
+  width: 400px !important;
+  position: fixed;
+  z-index: 100000000;
+}
+.ra-category-modal .modal-body {
+  overflow: hidden;
+}
+.ra-category-modal label {
+  font-size: 15px;
+  font-weight: bold;
+  float: left;
+  margin-right: 10px;
+  line-height: 20px;
+}
+.ra-category-modal .ra-list {
+  width: 368px;
+  height: 338px;
+  border: 1px solid #ccc;
+  margin-left: 0px;
+  margin-top: 8px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  float: left;
+}
+.ra-category-modal .ra-list li{
+  cursor: pointer;
+  padding: 3px 8px;
+}
+.ra-category-modal .ra-list li.ra-selected{
+  background-color: #ccc;
+}
+
+.ra-category-modal .ts-element {
+  float: left;
+}
+
+.ts-wrap .ts-box {
+  position: relative;
+}
+
+.ts-wrap .ts-box .ts-button {
+  position: absolute;
+  height: 21px;
+  width: 1.5em;
+  margin-left: -4px;
+}
+
+.ts-wrap .ts-list {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-top: -5px;
+  height: 380px;
+  width: 160px;
+}
+
+/* ---------------- tree select -----------------------*/
+.ts-element {
+  font-size: 14px;
+}
+
+.ts-element .ts-nodes{
+  position: relative;
+  left: 10px;
+}
+
+.ts-element .ts-node {
+  line-height: 12px;
+  margin: 5px;
+}
+
+.ts-element input {
+  width: 100%;
+  display: block;
+  float: left;
+}
+
+.ts-element .ts-list {
+  border: 1px solid #ccc;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+  width: 138px;
+  background-color: white;
+}
+
+/************* tree index *************/
+.treegrid-collapsed,.treegrid-expanded{background-color:#f9f9f9;}
+.treegrid-indent {width:16px; height: 16px; display: inline-block; position: relative;}
+
+.treegrid-expander {width:16px; height: 16px; display: inline-block; position: relative; cursor: pointer;}
+
+.treegrid-expander-expanded{
+  vertical-align: middle;
+  background-image: url(/assets/rails_admin/collapse.png);
+}
+.treegrid-expander-collapsed{vertical-align: middle;background-image: url(/assets/rails_admin/expand.png); }
+
+
+/************* user select *************/
+.ra-user-dialog .ra-search-toolbar {
+  position: relative;
+}
+.ra-user-dialog .ra-search-toolbar .ra-select-dropdown {
+  display: none;
+  overflow: scroll;
+  position: absolute;
+  font-size: 14px;
+  left: 0px;
+  top: 23px;
+  height: 280px;
+  z-index: 1;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+.ra-user-dialog .ra-search-toolbar .ra-select-dropdown ul {
+  margin: 0 0 6.5px 10px;
+}
+.ra-user-dialog .ra-search-toolbar .ra-select-dropdown ul li {
+  list-style-type:none;
+  margin-top: 10px;
+  font-weight: bold;
+}
+.ra-user-dialog .ra-search-toolbar .ra-select-dropdown li span {
+  cursor: pointer;
+  text-decoration:none
+}
+.ra-user-dialog .ra-search-toolbar .ra-select-dropdown li span:hover {
+  color: #3b5998;
+  font-weight: bold;
+}
+.ra-user-dialog .ra-search-toolbar input.ra-dropdown-input {
+  width: 150px;
+}
+.ra-user-dialog .ra-select-all {
+  padding: 5px 0px;
+}
+.ra-user-dialog .ra-select-all input[type=checkbox] {
+  width: 20px;
+  margin-top: 0px;
+}
+.ra-user-dialog .ra-select-all label {
+  display: inline;
+  font-weight: bold;
+}
+.ra-user-dialog .ra-users {
+  overflow-y: scroll;
+  height: 350px;
+  padding: 5px;
+  -moz-border-radius:5px;
+  -webkit-border-radius:5px;
+  border-radius:5px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+.ra-user-dialog .ra-user-wrap {
+  display: none;
+  float: left;
+  padding: 5px;
+  width: 100px;
+}
+.ra-user-dialog .ra-user-wrap input[type=checkbox]{
+  width: 20px;
+  margin-top: 0px;
+}
+.ra-user-dialog .ra-user-wrap label{
+  display: inline;
+}
+/************* multi select *************/
+.ra-multi-select-wrap{
+  overflow: hidden;
+}
+/************* tableEdit *************/
+.ra-sort{
+  width: 15px;
+  margin-left: 5px;
+}
+/* --------------------------- JobShowPage -------------------------------- */
+.ra-show-job .s-status, .ra-show-job .s-progress, .ra-show-job .s-logger {
+  padding: 10px 0px;
+}
+.ra-show-job .s-label {
+  font-size: 18px;
+  font-weight: bold;
+}
+.ra-show-job .s-logger .s-output {
+  background-color: black;
+  color: white;
+  padding: 10px 10px 1px 10px;
+  line-height: 20px;
+  margin-top: 10px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0){/* chrome*/
+  .control-label:after {
+    content: ".";
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    height: 0;
+  }
+}

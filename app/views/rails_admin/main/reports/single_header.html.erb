@@ -1,0 +1,29 @@
+<div class="list">
+  <%= render :partial => "rails_admin/main/reports/filters" %>
+
+  <div class="ra-report-data">
+    <table id="ra-report-table" class="table table-condensed table-striped table-bordered">
+      <thead>
+        <tr>
+          <% @report_config.get_fields.each do |field_name| %>
+            <th><%= t("admin.reports.#{params[:kind]}.header.#{field_name}") %></th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @results.present? %>
+          <% @results.each do |result| %>
+            <tr class="<%=result[:css_class]%>">
+              <% @report_config.get_fields.each do |field_name| %>
+                <td><%= result[field_name] %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        <% else %>
+         <tr><td colspan=<%=@report_config.get_fields.count%>>没有记录</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

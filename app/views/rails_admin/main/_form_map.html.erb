@@ -1,0 +1,8 @@
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.5&ak=<%= field.google_api_key %>"></script>
+
+<div class="cms-map-wrap" data-default-lat="<%= field.default_latitude %>" data-default-lng="<%= field.default_longitude %>">
+  <div class="cms-map" style="width:500px;height:500px">
+  </div>
+  <%= form.send :hidden_field, field.name, :id => field.latitude_dom_name, :class => "cms-lat-input" %>
+  <%= form.send :hidden_field, field.longitude_field, :id => field.longitude_dom_name, :class => "cms-lng-input" %>
+</div>

@@ -1,0 +1,17 @@
+<div class="ra-show-job">
+  <div class="s-status">
+    <span class="s-label">状态: </span>
+    <%= @job.formated_status_name %>
+  </div>
+
+  <div class="s-progress">
+    <span class="s-label">进度: </span> <%= @job.progress %>
+  </div>
+
+  <div class="s-logger">
+    <span class="s-label">日志: </span>
+    <div class="s-output" >
+      <%= simple_format(@job.logger) %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+%input{type: :hidden, name: 'return_to', value: (params[:return_to].presence || request.referer)}
+.form-actions.s-form-actions
+  - if buttons.map(&:to_s).include?("save")
+    %button.btn.s-button-ok.btn-primary{type: "submit", name: "_add_edit", :'data-disable-with' => t("admin.form.save")}
+      %i.icon-white.icon-ok
+      = t("admin.form.save")
+  - if authorized?(:edit, @abstract_model) && buttons.map(&:to_s).include?("edit")
+    %a.btn.s-button-edit.btn-primary{href: "#{request.path}/edit"}
+      %i.icon-white.icon-edit
+      = t("admin.form.edit")
+  - if authorized?(:new, @abstract_model) && buttons.map(&:to_s).include?("new")
+    %a.btn.s-button-new.btn-primary{href: "/admin/#{params[:model_name]}/new"}
+      %i.icon-white.icon-edit
+      = t("admin.form.new")
+  - if authorized?(:delete, @abstract_model) && buttons.map(&:to_s).include?("delete")
+    %a.btn.s-button-delete.btn-danger{href: "#{request.path}/delete"}
+      %i.icon-white.icon-remove
+      = t("admin.form.delete")
+  - if buttons.map(&:to_s).include?("cancel")
+    %span.extra_buttons
+      %button.s-button-cancel.btn{type: "submit", name: "_continue", :'data-disable-with' => t("admin.form.cancel")}
+        %i.icon-remove
+        = t("admin.form.cancel")
+  - if buttons.map(&:to_s).include?("print")
+    %a.btn.s-button-print.btn-primary.ra-print-btn{href: "#{request.path}/print"}
+      %i.icon-white.icon-edit
+      = t("admin.form.print")

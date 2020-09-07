@@ -1,0 +1,28 @@
+<div class="ra-report-export" style="border-bottom: 1px solid #ddd;">
+  <a class="ra-link" href="<%= "#{request.path}.xls"  %>">导出</a>
+</div>
+
+<%= form_tag request.path, :method => :post, :class => "pjax-form form-inline" do |form| %>
+  <div class="ra-report-filter well">
+    <div class="ra-filter-wrap">
+      <span class="ra-label"><%= t("admin.search.label") %></span>
+      <% @report_config.get_filters.in_groups_of(3, false).each do |filter_config_groups| %>
+        <div class="ra-filter-items">
+          <% filter_config_groups.each do |filter_config| %>
+            <div class="controls ra-filter-item">
+              <label><%= t("admin.reports.#{params[:kind]}.filter.#{filter_config[:field_name]}") %></label>
+              <%
+                base = RailsAdmin::Config::Model.new(User)
+                field = RailsAdmin::Config::Fields::Types.load(filter_config[:type]).new(base, filter_config[:field_name], nil)
+                field.instance_eval(&filter_config[:block]) if filter_config[:block].present?
+              %>
+              <%= raw(field.search_input_html(self)) %>
+            </div>
+          <% end %>
+          <div class="clearfix"></div>
+        </div>
+      <% end %>
+    </div>
+    <button class="btn btn-primary"><%= t("admin.search.submit") %></button>
+  </div>
+<% end %>

@@ -1,0 +1,9 @@
+= rails_admin_form_for @object, url: edit_path(@abstract_model, @object.id), as: @abstract_model.param_key, html: { method: "put", multipart: true, class: "form-horizontal denser", data: { title: @page_name } } do |form|
+  - @readonly_form = true
+  = render partial: 'rails_admin/main/form_buttons', locals: { buttons: ["new", "print", "edit", "delete"] }
+  - if show_template_name.present?
+    = render partial: show_template_name, locals: { form: form }
+  - elsif template_name.present?
+    = render partial: template_name, locals: { form: form }
+  - else
+    = form.generate action: :show

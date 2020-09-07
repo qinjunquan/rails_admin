@@ -1,0 +1,24 @@
+<div class="ra-table-edit-wrap" data-type="<%= "#{form.object_name}_#{field.name}" %>">
+  <table class="table table-bordered ra-normalt-table ra-table">
+    <thead>
+      <tr>
+        <% field.fields.map do |field_config| %>
+          <% next if field_config[:edit_only]%>
+          <th><%= t("activerecord.attributes.#{field.abstract_model.to_s.underscore}_#{field.name}.#{field_config[:field_name]}") %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% form.object.send(field.name).each_with_index do |item, index| %>
+        <tr class="ra-row">
+          <% field.fields.map do |field_config| %>
+            <% next if field_config[:edit_only]%>
+            <td>
+              <%= form.field_for_table_edit(field.parent, field_config.merge(:readonly => true), item, "") %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

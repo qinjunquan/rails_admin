@@ -1,0 +1,84 @@
+<% field.init_format_data %>
+<table width="90%" class="ra-user-select-wrap">
+  <tr>
+    <td class="ra_<%=field.name%>_wrap">
+      <input type="text" id="<%=field.name%>_tokenInput" name="blah2" style="display: none;">
+      <div class="ra-form-field" style="display:none" >
+        <%=field.selected_form_fields%>
+      </div>
+    </td>
+    <td style="width:25px;vertical-align:top;">
+      <a href="javascript:void(0)" class="btn ra-user-selector" data-field="<%=field.name%>"><i class="icon-user"></i></a>
+    </td>
+  </tr>
+</table>
+<div id="<%=field.name%>_dialog" class="ra-user-dialog" title="员工筛选">
+  <div class="ra-search-toolbar">
+    <div class="input-append">
+      <input type="text" tabindex="-1" class="ra-dropdown-input" style="width:160px;" placeholder="公司－部门">
+      <div class="btn-group" style="vertical-align:bottom;margin-left:-7px;">
+        <button class="btn ra-dropdown-toggle" data-field="<%=field.name%>" style="height:24px;">
+          <span class="caret"></span>
+        </button>
+      </div>
+      <div class="ra-select-dropdown">
+        <%= field.tree_dropdown %>
+      </div>
+    </div>
+    <input class="ra-search-input" type="text" data-field="<%=field.name%>" placeholder="姓名" style="margin-left:5px;width:100px;">
+    <div class="clearfix"></div>
+  </div>
+  <div class="ra-select-all">
+    <input type="checkbox" class="ra-all-selector" id="all" data-field="<%=field.name%>"/><label for="all">全选</label>
+  </div>
+  <div class="ra-users">
+    <%= field.select_users%>
+  </div>
+</div>
+<script>
+$(function() {
+  $("#<%=field.name%>_tokenInput").tokenInput(
+    <%= field.json_users%>,
+    {
+      theme: "facebook",
+      preventDuplicates: true,
+      hintText: "输入姓名",
+      //noResultsText: "O noes",
+      //searchingText: "Meowing..."
+      onAdd: function (item) {
+        admin.userSelect.tokenInputOnAdd(item);
+      },
+      onDelete: function (item) {
+        admin.userSelect.tokenInputOnDelete(item);
+      },
+      prePopulate: <%=field.json_selected_users%>
+  });
+
+  $( "#<%=field.name%>_dialog" ).dialog({
+    autoOpen: false,
+    width: "380px",
+    modal: true,
+    open: function(event,ui){
+      var field = "<%=field.name%>";
+      admin.userSelect.initDialog(field);
+    },
+    buttons: [{
+      text: "确认",
+      click: function() {
+        var model = "<%=form.object_name%>", field = "<%=field.name%>", field_key = "<%=field.association_key%>";
+        admin.userSelect.dialogOnAdd(model,field,field_key);
+      }
+    },{
+      text: "取消",
+      click: function() {
+        $( this ).dialog( "close" );
+      }
+    }]
+  });
+});
+</script>
+<style>
+.ui-widget-content{
+  border: 0px;
+}
+</style>

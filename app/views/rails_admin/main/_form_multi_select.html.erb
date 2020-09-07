@@ -1,0 +1,54 @@
+<% field.init_data %>
+<% if field.is_local_pattern?%>
+<div class="ra-multi-select-wrap ra_<%=field.name%>_wrap" data-model="<%=form.object_name%>" data-field="<%=field.name%>" data-fieldkey="<%=field.association_key%>">
+  <input type="text" id="<%=field.name%>_tokenInput" name="blah2" style="display: none;">
+  <div class="ra-hidden-form-items" style="display:none" >
+    <%=field.hidden_form_items%>
+  </div>
+  <script>
+  $(function() {
+    $("#<%=field.name%>_tokenInput").tokenInput(
+      <%= field.local_select_items%>,
+      {
+        theme: "facebook",
+        preventDuplicates: true,
+        onAdd: function (item) {
+          var model = "<%=form.object_name%>", field = "<%=field.name%>", fieldKey = "<%=field.association_key%>";
+          admin.multiSelect.tokenInputOnAdd(item, model, field, fieldKey);
+        },
+        onDelete: function (item) {
+          var model = "<%=form.object_name%>", field = "<%=field.name%>", fieldKey = "<%=field.association_key%>";
+          admin.multiSelect.tokenInputOnDelete(item, model, field, fieldKey);
+        },
+        prePopulate: <%=field.selected_items%>
+    });
+  });
+  </script>
+</div>
+<% else %>
+<div class="ra-multi-select-wrap ra_<%=field.name%>_wrap" data-model="<%=form.object_name%>" data-field="<%=field.name%>" data-fieldkey="<%=field.association_key%>">
+  <input type="text" id="<%=field.name%>_tokenInput" name="blah2" style="display: none;">
+  <div class="ra-hidden-form-items" style="display:none" >
+    <%=field.hidden_form_items%>
+  </div>
+  <script>
+  $(function() {
+    $("#<%=field.name%>_tokenInput").tokenInput(
+      "<%= field.url.to_s%>?m=<%=field.class_name%>&d_f=<%=field.display_field%>&v_f=<%=field.value_field%>",
+      {
+        theme: "facebook",
+        preventDuplicates: true,
+        onAdd: function (item) {
+          var model = "<%=form.object_name%>", field = "<%=field.name%>", fieldKey = "<%=field.association_key%>";
+          admin.multiSelect.tokenInputOnAdd(item, model, field, fieldKey);
+        },
+        onDelete: function (item) {
+          var model = "<%=form.object_name%>", field = "<%=field.name%>", fieldKey = "<%=field.association_key%>";
+          admin.multiSelect.tokenInputOnDelete(item, model, field, fieldKey);
+        },
+        prePopulate: <%=field.selected_items%>
+    });
+  });
+  </script>
+</div>
+<% end %>

@@ -1,0 +1,70 @@
+<% field.reset  %>
+<% unless field.multiple? %>
+  <% dom_name = field.html_attributes[:name] || form.dom_name(field) %>
+  <select class="<%= "ra-enum #{field.autofill_attrs.present? ? "ra-autofill" : ""} #{field.formatted_category.present? ? "ra-category" : "" }" %> "
+          data-enumeration="true"
+          data-depend-on="<%= field.formatted_depend_on %>"
+          data-autofill-attrs="<%= field.formatted_autofill_attrs.to_json %>"
+          data-autofill-key="<%= field.autofill_key %>"
+          data-editable="<%= field.editable %>"
+          <% if field.search_key %>
+          data-options="<%= { :xhr => true, :remote_source => "/admin/enum_search?key=#{field.search_key}" }.to_json %>"
+          <% end %>
+          placeholder="<%= t('admin.misc.search') %>"
+          name="<%= dom_name %>"
+          id="<%= form.dom_id(field) %>"
+  >
+    <%
+      enum_arr = field.available_values.nil? ? field.formatted_enum : field.formatted_enum.select { |k, v| field.available_values.include?(v) }
+    %>
+    <% enum_arr.each do |name, value, depend_on_val| %>
+      <option value=""></option>
+      <option data-depend-on="<%= field.formatted_depend_on %>" data-depend-on-val="<%= depend_on_val %>" <%= field.form_value.to_s == value.to_s ? "selected" : "" %> value="<%= value %>"><%= name %></option>
+    <% end %>
+  </select>
+
+  <% if field.formatted_category.present? %>
+    <div id="<%= dom_name.gsub(/\]/, "").gsub(/\[/, "-") %>" class="ra-category-modal modal hide fade" data-key="<%= field.category_key %>">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3>选择</h3>
+      </div>
+      <div class="modal-body">
+        <div class="ra-filters">
+          <label>分类</label>
+          <div class="ts-element" data-name=""
+                                  data-nodes="<%= field.formatted_category.to_json %>"
+                                  data-after-selected="admin.enumeration.reloadCategoryResult">
+          </div>
+        </div>
+        <div class="ts-search">
+          <label>搜索</label><input class="ra-search" type="text" />
+        </div>
+        <ul class="ra-list">
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="ra-cancel btn" data-dismiss="modal" aria-hidden="true">取消</a>
+        <a href="#" class="ra-ok btn btn-primary" data-dismiss="modal" aria-hidden="true">选择</a>
+     </div>
+    </div>
+  <% end %>
+<% else %>
+  <%
+    js_data = {
+      xhr: false,
+      sortable: false,
+      cacheAll: true,
+      values: field.form_value,
+      regional: {
+        chooseAll: t("admin.misc.chose_all"),
+        chosen: t("admin.misc.chosen", name: config.label_plural),
+        clearAll: t("admin.misc.clear_all"),
+        search: t("admin.misc.search"),
+        up: t("admin.misc.up"),
+        down: t("admin.misc.down")
+      }
+    }
+  %>
+  <%= form.select field.method_name, field.formatted_enum, { selected: field.form_value, object: form.object }, field.html_attributes.reverse_merge({data: { filteringmultiselect: true, options: js_data.to_json }, multiple: true}) %>
+<% end %>

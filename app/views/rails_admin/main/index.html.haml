@@ -1,0 +1,133 @@
+:ruby
+  require 'rails_admin/config/fields/types/datetime.rb'
+  query = params[:query]
+  params = request.params.except(:authenticity_token, :action, :controller, :utf8, :bulk_export, :_pjax)
+  params.delete(:query) if params[:query].blank?
+  params.delete(:sort_reverse) unless params[:sort_reverse] == 'true'
+  sort_reverse = params[:sort_reverse]
+  sort = params[:sort]
+  params.delete(:sort) if params[:sort] == @model_config.list.sort_by.to_s
+  export_action = RailsAdmin::Config::Actions.find(:export, { controller: self.controller, abstract_model: @abstract_model })
+  export_action = nil unless export_action && authorized?(export_action.authorization_key, @abstract_model)
+
+  properties = @model_config.list.with(controller: self.controller, view: self, object: @abstract_model.model.new).visible_fields
+  properties = properties.reject { |p| [:table_edit, :serialized, :has_many_association].include?(p.type) }
+  # columns paginate
+  #sets = get_column_sets(properties)
+  #properties = sets[params[:set].to_i] || []
+  other_left = false #((params[:set].to_i - 1) >= 0) && sets[params[:set].to_i - 1].present?
+  other_right = false #sets[params[:set].to_i + 1].present?
+  all_properties = @model_config.list.with(controller: self.controller, view: self, object: @abstract_model.model.new).send("_fields")
+  searchable_fields = all_properties.select { |f| @model_config.list.searchable_field?(f.name) }
+
+= content_for :contextual_tabs do
+  = bulk_menu
+
+#list
+  %script
+    jQuery(function($) {
+    $.filters.options.regional = {
+    datePicker: {
+    dateFormat: #{raw I18n.t("admin.misc.filter_date_format", default: I18n.t("admin.misc.filter_date_format", locale: :en)).to_json},
+    dayNames: #{raw RailsAdmin::Config::Fields::Types::Datetime.day_names.to_json},
+    dayNamesShort: #{raw RailsAdmin::Config::Fields::Types::Datetime.abbr_day_names.to_json},
+    dayNamesMin: #{raw RailsAdmin::Config::Fields::Types::Datetime.abbr_day_names.to_json},
+    firstDay: "1",
+    monthNames: #{raw RailsAdmin::Config::Fields::Types::Datetime.month_names.to_json},
+    monthNamesShort: #{raw RailsAdmin::Config::Fields::Types::Datetime.abbr_month_names.to_json}
+    }
+    }
+
+    });
+  %style
+    - properties.select{ |p| p.column_width.present? }.each do |property|
+      = "#list th.#{property.css_class} { width: #{property.column_width}px; min-width: #{property.column_width}px; }"
+      = "#list td.#{property.css_class} { max-width: #{property.column_width}px; }"
+  = form_tag(index_path, method: :post, class: "pjax-form form-inline") do
+    - if @model_config.list.filters.present?
+      .well
+        %div.ra-filters
+          %span.ra-label #{t("admin.filter.label")}
+          - @model_config.list.filters.each do |name, block|
+            %a{class: "ra-filter #{@selected_filter == name.to_s ? "ra-selected" : '' }", href: "#{request.path}?filter=#{name}"} #{t("admin.filter.#{name}")}
+      - if export_action
+        %span{style: 'float:right'}= link_to wording_for(:link, export_action), export_path(params.except('set').except('page')), class: 'btn btn-info'
+
+  - unless @model_config.list.scopes.empty?
+    %ul.nav.nav-tabs#scope_selector
+      - @model_config.list.scopes.each_with_index do |scope, index|
+        - scope = '_all' if scope.nil?
+        %li{class: "#{'active' if scope.to_s == params[:scope] || (params[:scope].blank? && index == 0)}"}
+          %a{href: index_path(params.merge(scope: scope, page: nil))}= I18n.t("admin.scopes.#{@abstract_model.to_param}.#{scope}", default: I18n.t("admin.scopes.#{scope}", default: scope.to_s.titleize))
+
+  %div.ra-index-setting
+    %div.ra-filters
+      - if @model_config.list.filters.present?
+        %span.ra-label #{t("admin.filter.label")}
+        - @model_config.list.filters.each do |name, block|
+          %a{class: "ra-filter #{@selected_filter == name.to_s ? "ra-selected" : '' }", href: "#{request.path}?filter=#{name}"} #{t("admin.filter.#{name}")}
+    - if @objects.respond_to?(:total_count)
+      - total_count = @objects.total_count.to_i
+      .total-count= "#{"总记录数:"} #{total_count}"
+    - else
+      .total-count= "#{"总记录数:"} #{@objects.size}"
+    %div.clearfix
+    - if searchable_fields.present?
+      %hr{:style => "margin:5px"}
+      = form_tag(index_path, method: :post, class: "pjax-form form-inline") do
+        %div.ra-search-wrap
+          %div.ra-search-items
+            - searchable_fields.each_with_index do |field,index|
+              %div.ra-search-item
+                %label #{t("activerecord.attributes.#{field.abstract_model.to_s.underscore}.#{field.name}")}
+                = field.search_input_html(self).html_safe
+          %button.btn.btn-primary{:style => "float: right;margin-top:0px"} #{t("admin.search.submit")}
+          %div.clearfix
+
+  - if @model_config.list.bulk_edit_actions.present?
+    %div.ra-bulk-edit
+      %select.ra-input
+        - @model_config.list.bulk_edit_actions.each do |name, block|
+          %option{value: name} #{t("admin.actions.bulk_edit.#{name}")}
+      %a.btn.btn-primary.ra-submit #{t("admin.form.submit")}
+  = form_tag bulk_action_path(model_name: @abstract_model.to_param), method: :post, id: "bulk_form", class: "form" do
+    = hidden_field_tag :bulk_action
+    = hidden_field_tag :bulk_action_type
+    %table.table.table-condensed.table-striped.table-bordered
+      %thead
+        %tr
+          %th.shrink
+            %input.toggle{type: "checkbox"}
+          - if other_left
+            %th.other.left.shrink= "..."
+          - properties.each do |property|
+            - selected = (sort == property.name.to_s)
+            - if property.sortable
+              - sort_location = index_path params.except('sort_reverse').except('page').merge(sort: property.name).merge(selected && sort_reverse != "true" ? {sort_reverse: "true"} : {})
+              - sort_direction = (sort_reverse == 'true' ? "headerSortUp" : "headerSortDown" if selected)
+            %th{class: "ra-min-th #{property.sortable && "header pjax" || nil} #{sort_direction if property.sortable && sort_direction} #{property.css_class} #{property.type_css_class}", :'data-href' => (property.sortable && sort_location), rel: "tooltip", title: "#{property.hint}"}= property.label
+          - if other_right
+            %th.other.right.shrink= "..."
+          %th.last.shrink
+      %tbody
+        - @objects.each do |object|
+          %tr{class: "#{@abstract_model.param_key}_row"}
+            %td
+              = check_box_tag "bulk_ids[]", object.id, false
+            - if @other_left_link ||= other_left && index_path(params.except('set').merge(params[:set].to_i != 1 ? {set: (params[:set].to_i - 1)} : {}))
+              %td.other.left= link_to "...", @other_left_link, class: 'pjax'
+            - properties.map{ |property| property.bind(:object, object) }.each_with_index do |property, index|
+              - value = property.formatted_list_value
+              - if index == 0
+                %td{class: "#{property.css_class} #{property.type_css_class}", title: strip_tags(value.to_s)}
+                  %a{href: "/admin/#{params[:model_name]}/#{object.id}" }=value
+              - else
+                %td{class: "#{property.css_class} #{property.type_css_class}", title: strip_tags(value.to_s)}= value
+            - if @other_right_link ||= other_right && index_path(params.merge(set: (params[:set].to_i + 1)))
+              %td.other.right= link_to "...", @other_right_link, class: 'pjax'
+            %td.last.links
+              %ul.inline= menu_for :member, @abstract_model, object, true
+    - if @objects.respond_to?(:total_count)
+      - total_count = @objects.total_count.to_i
+      = paginate(@objects, theme: 'twitter-bootstrap')
+      = link_to(t("admin.misc.show_all"), index_path(params.merge(all: true)), class: "show-all btn clearfix pjax") unless total_count > 100 || total_count <= @objects.to_a.size

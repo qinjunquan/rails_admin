@@ -1,0 +1,4 @@
+<%= form_tag import_path(@abstract_model.param_key), method: "post", multipart: true do |form| %>
+  <label>文件: <input type="file" name="file" /></label>
+  <%= render partial: 'rails_admin/main/form_buttons', locals: { buttons: ["save", "cancel"] } %>
+<% end %>
